@@ -82,22 +82,12 @@ export default function LeadForm() {
     data.submitted_at = new Date().toISOString();
     try {
       const formPayload = new URLSearchParams(data);
-      const [formResponse, leadResponse] = await Promise.all([
-        fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: formPayload.toString(),
-        }),
-        fetch("/.netlify/functions/submit-lead", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        }),
-      ]);
-      const leadResult = await leadResponse.json().catch(() => null);
-      if (!formResponse.ok || !leadResponse.ok || leadResult?.ok !== true) {
-        throw new Error(`Lead submission failed: ${formResponse.status}/${leadResponse.status}`);
-      }
+      const formResponse = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formPayload.toString(),
+      });
+      if (!formResponse.ok) throw new Error(`Netlify form submission failed: ${formResponse.status}`);
       setStatus("success");
     } catch {
       setStatus("error");

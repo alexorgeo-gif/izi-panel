@@ -2,6 +2,8 @@
 
 Google-таблица уже создана. Для автоматической записи нужна одноразовая публикация защищённого Apps Script и две переменные Netlify.
 
+Рабочая цепочка: посетитель отправляет форму → Netlify Forms сохраняет лид → защищённое событие `formSubmitted` запускает `netlify/functions/sync-google-sheet.mjs` → функция передаёт копию лида в существующую Google-таблицу. Ошибка Google Sheets не отменяет первичное сохранение заявки в Netlify Forms.
+
 ## 1. Создать веб-приложение Apps Script
 
 1. Откройте существующую Google-таблицу [`Open Village 2026 — база лидов`](https://docs.google.com/spreadsheets/d/1bkrkd-CnxaTd7gk2uSbMnQUsgXJ7uU3JfVHFRySbNLE/edit). Новую таблицу создавать не нужно: её ID уже указан в `google-apps-script/Code.gs`.
