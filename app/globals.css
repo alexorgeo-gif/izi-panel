@@ -109,7 +109,6 @@ h1 em, h2 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400;
 .project-options-grid span { font-size: 11px; font-weight: 800; }
 .project-options-grid h3 { font-family: Georgia, serif; font-size: 28px; font-weight: 400; margin: 72px 0 14px; }
 .project-options-grid p { font-size: 13px; line-height: 1.65; margin: 0; max-width: 330px; }
-.technical-note { border-top: 1px solid var(--line); font-size: 10px; font-weight: 700; letter-spacing: .04em; line-height: 1.55; margin: 0; padding-top: 18px; text-transform: uppercase; }
 .process-grid { border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
 .process-grid article { border-right: 1px solid var(--line); min-height: 250px; padding: 28px; }
 .process-grid article:last-child { border: 0; }

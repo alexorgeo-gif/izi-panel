@@ -75,18 +75,29 @@ export default function LeadForm() {
     event.preventDefault();
     setStatus("sending");
     const form = event.currentTarget;
-    const payload = new URLSearchParams();
+    const data: Record<string, string> = {};
     for (const [key, value] of new FormData(form).entries()) {
-      payload.append(key, String(value));
+      data[key] = String(value);
     }
-    payload.set("submitted_at", new Date().toISOString());
+    data.submitted_at = new Date().toISOString();
     try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: payload.toString(),
-      });
-      if (!response.ok) throw new Error(`Form submission failed: ${response.status}`);
+      const formPayload = new URLSearchParams(data);
+      const [formResponse, leadResponse] = await Promise.all([
+        fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: formPayload.toString(),
+        }),
+        fetch("/.netlify/functions/submit-lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }),
+      ]);
+      const leadResult = await leadResponse.json().catch(() => null);
+      if (!formResponse.ok || !leadResponse.ok || leadResult?.ok !== true) {
+        throw new Error(`Lead submission failed: ${formResponse.status}/${leadResponse.status}`);
+      }
       setStatus("success");
     } catch {
       setStatus("error");
