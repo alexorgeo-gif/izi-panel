@@ -4,11 +4,10 @@ Google-таблица уже создана. Для автоматической
 
 ## 1. Создать веб-приложение Apps Script
 
-1. Откройте Google-таблицу `Open Village 2026 — база лидов`.
+1. Откройте существующую Google-таблицу [`Open Village 2026 — база лидов`](https://docs.google.com/spreadsheets/d/1bkrkd-CnxaTd7gk2uSbMnQUsgXJ7uU3JfVHFRySbNLE/edit). Новую таблицу создавать не нужно: её ID уже указан в `google-apps-script/Code.gs`.
 2. Выберите **Расширения → Apps Script**.
 3. Замените содержимое `Code.gs` кодом из `google-apps-script/Code.gs` этого проекта.
 4. Откройте **Настройки проекта → Свойства скрипта** и добавьте:
-   - `SPREADSHEET_ID` — ID таблицы из её URL;
    - `WEBHOOK_SECRET` — случайная строка длиной не менее 32 символов.
 5. Выберите **Развернуть → Новое развертывание → Веб-приложение**:
    - выполнять от вашего имени;

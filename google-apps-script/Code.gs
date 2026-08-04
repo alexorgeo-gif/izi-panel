@@ -1,4 +1,5 @@
 const LEADS_SHEET_NAME = "Лиды";
+const SPREADSHEET_ID = "1bkrkd-CnxaTd7gk2uSbMnQUsgXJ7uU3JfVHFRySbNLE";
 
 function jsonResponse(payload) {
   return ContentService
@@ -38,7 +39,7 @@ function doPost(event) {
     if (!leadId) return jsonResponse({ ok: false, error: "missing_lead_id" });
 
     lock.waitLock(10_000);
-    const spreadsheet = SpreadsheetApp.openById(getRequiredProperty("SPREADSHEET_ID"));
+    const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = spreadsheet.getSheetByName(LEADS_SHEET_NAME);
     if (!sheet) throw new Error(`Не найден лист: ${LEADS_SHEET_NAME}`);
 
