@@ -30,7 +30,8 @@ function doPost(event) {
   const lock = LockService.getScriptLock();
 
   try {
-    const body = JSON.parse(event?.postData?.contents || "{}");
+    const requestBody = event && event.postData ? event.postData.contents : "{}";
+    const body = JSON.parse(requestBody || "{}");
     const expectedSecret = getRequiredProperty("WEBHOOK_SECRET");
     if (body.secret !== expectedSecret) return jsonResponse({ ok: false, error: "unauthorized" });
 
@@ -38,7 +39,7 @@ function doPost(event) {
     const leadId = String(data.lead_id || "").trim();
     if (!leadId) return jsonResponse({ ok: false, error: "missing_lead_id" });
 
-    lock.waitLock(10_000);
+    lock.waitLock(10000);
     const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = spreadsheet.getSheetByName(LEADS_SHEET_NAME);
     if (!sheet) throw new Error(`Не найден лист: ${LEADS_SHEET_NAME}`);
