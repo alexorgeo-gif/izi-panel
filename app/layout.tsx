@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "FORM / PANEL — декоративные панели для интерьера",
-  description: "Подбор декоративных панелей и предварительный расчёт для вашего объекта. Специальное предложение для гостей Open Village.",
+  description: "Подбор декоративных панелей и предварительный расчёт для вашего объекта. Выставочная подборка для гостей Open Village.",
   other: {
     "codex-preview": "development",
   },

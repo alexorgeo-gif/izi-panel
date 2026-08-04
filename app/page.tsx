@@ -3,39 +3,57 @@ import LeadForm from "./lead-form";
 const solutions = [
   {
     number: "01",
-    title: "Фактура дерева",
-    text: "Тёплая архитектурная база для гостиных, спален и загородных домов.",
-    image:
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=86",
+    title: "Дерево и шпон",
+    text: "Тёплая фактура для жилых интерьеров, гостиничных номеров и лаунж-зон.",
+    image: "/catalog-interiors/solution-wood.webp",
+    catalog: "Коллекция дерева",
   },
   {
     number: "02",
-    title: "Камень и мрамор",
-    text: "Выразительные акцентные плоскости без тяжёлой мокрой отделки.",
-    image:
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=86",
+    title: "Травертин и мрамор",
+    text: "Крупный природный рисунок для акцентных стен, лобби и гостиных.",
+    image: "/catalog-interiors/solution-stone.webp",
+    catalog: "Коллекция камня",
   },
   {
     number: "03",
-    title: "Реечные системы",
-    text: "Ритм, глубина и визуальное зонирование пространства.",
-    image:
-      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=86",
+    title: "Тканевые поверхности",
+    text: "Мягкий визуальный фон для спален, кабинетов и зон ожидания.",
+    image: "/catalog-interiors/solution-fabric.webp",
+    catalog: "Коллекция текстиля",
   },
   {
     number: "04",
-    title: "Проектные решения",
-    text: "Комбинации фактур и профилей под задачу дизайнера или комплектатора.",
-    image:
-      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=86",
+    title: "Металл и патина",
+    text: "Выразительный акцент для ресторанов, баров и коммерческих интерьеров.",
+    image: "/catalog-interiors/solution-metal.webp",
+    catalog: "Коллекция металла",
   },
 ];
 
 const audiences = [
   ["Частному заказчику", "Поможем понять объём, подобрать декор и собрать решение под интерьер."],
   ["Дизайнеру", "Подбор образцов, понятная спецификация и сопровождение проекта."],
-  ["Строителю", "Технические данные, расчёт комплектации и прогнозируемая поставка."],
-  ["Дилеру", "Ассортиментная матрица и отдельные условия для регулярных закупок."],
+  ["Строителю", "Зафиксируем тип объекта, площадь и данные для будущей комплектации."],
+  ["Дилеру", "Покажем основные коллекции и соберём запрос по формату сотрудничества."],
+];
+
+const projectOptions = [
+  {
+    number: "01",
+    title: "Общественные зоны",
+    text: "Подберём решение под требования объекта и предоставим доступные сертификаты на выбранную панель.",
+  },
+  {
+    number: "02",
+    title: "Влага и нагрузка",
+    text: "Рассмотрим SPC и кварц-виниловые решения. Рабочие характеристики подтвердим техническим листом.",
+  },
+  {
+    number: "03",
+    title: "Высота до 6 метров",
+    text: "Нестандартные форматы 3–6 м рассчитываем индивидуально; декор и возможность производства подтверждаем под проект.",
+  },
 ];
 
 export default function Home() {
@@ -47,13 +65,13 @@ export default function Home() {
           <span>FORM / PANEL</span>
         </a>
         <a className="topbar-cta" href="#lead">
-          Получить каталог
+          Получить прайс
         </a>
       </header>
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <p className="eyebrow"><span /> Open Village · специальное предложение</p>
+          <p className="eyebrow"><span /> Open Village · скидка до 50%</p>
           <h1>
             Стены, которые
             <br />
@@ -62,36 +80,55 @@ export default function Home() {
           <p className="hero-text">
             Декоративные панели для квартир, загородных домов и коммерческих
             интерьеров. Подберём решение и предварительно рассчитаем объём под
-            ваш объект.
+            ваш объект. На отдельные позиции выставочная цена — от 1 900 ₽/м².
           </p>
           <div className="hero-actions">
             <a className="button button-primary" href="#lead">
-              Получить подборку и расчёт <span>↗</span>
+              Получить прайс и расчёт <span>↗</span>
             </a>
             <a className="text-link" href="#solutions">
               Смотреть решения <span>↓</span>
             </a>
           </div>
           <div className="hero-trust">
-            <span>Образцы декоров</span>
+            <span>Прайс после квиза</span>
             <span>Проектный расчёт</span>
-            <span>Прямые поставки</span>
+            <span>Для дома и HoReCa</span>
           </div>
         </div>
 
         <div className="hero-visual" role="img" aria-label="Современный интерьер с декоративными панелями">
           <div className="hero-badge">
             <strong>01</strong>
-            <span>Натуральная эстетика<br />современных материалов</span>
+            <span>Дерево · камень<br />ткань · металл</span>
           </div>
           <div className="scroll-note">Листайте, чтобы увидеть больше</div>
         </div>
       </section>
 
-      <section className="signal-strip" aria-label="Преимущества">
-        <p>Не просто материал.</p>
-        <p>Готовое решение для стены.</p>
-        <span>Подбор → расчёт → комплектация</span>
+      <section className="signal-strip" aria-label="Применение панелей">
+        <p>От 1 900 ₽/м².</p>
+        <p>Скидка до 50%.</p>
+        <span>На отдельные позиции при максимальной скидке · условия уточняются</span>
+      </section>
+
+      <section className="section project-options">
+        <div className="section-heading compact">
+          <p className="eyebrow"><span /> Под задачу проекта</p>
+          <h2>Для дома.<br /><em>Для сложных зон.</em></h2>
+        </div>
+        <div className="project-options-grid">
+          {projectOptions.map((item) => (
+            <article key={item.title}>
+              <span>{item.number}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+        <p className="technical-note">
+          Класс пожарной опасности, влагостойкость, ударная прочность и комплект документов подтверждаются по конкретному артикулу.
+        </p>
       </section>
 
       <section className="section solutions" id="solutions">
@@ -99,8 +136,7 @@ export default function Home() {
           <p className="eyebrow"><span /> Решения</p>
           <h2>Одна система.<br /><em>Разный характер.</em></h2>
           <p>
-            Подбираем материал и формат панели под стиль, бюджет и условия
-            конкретного помещения.
+            Четыре направления.
           </p>
         </div>
         <div className="solution-grid">
@@ -111,6 +147,7 @@ export default function Home() {
               </div>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
+              <small className="solution-meta">{item.catalog}</small>
             </article>
           ))}
         </div>
@@ -140,18 +177,18 @@ export default function Home() {
         <div className="process-grid">
           <article>
             <span>01</span>
-            <h3>Подборка декоров</h3>
-            <p>Отберём варианты под стиль и задачу вашего пространства.</p>
+            <h3>Прайс сразу после квиза</h3>
+            <p>Откроем выставочный прайс после сохранения контакта и параметров объекта.</p>
           </article>
           <article>
             <span>02</span>
             <h3>Предварительный расчёт</h3>
-            <p>Посчитаем ориентировочный объём и бюджет по размерам объекта.</p>
+            <p>Зафиксируем ориентировочную площадь и подготовим данные для расчёта.</p>
           </article>
           <article>
             <span>03</span>
-            <h3>План дальнейших действий</h3>
-            <p>Зафиксируем образцы, спецификацию и следующий контакт.</p>
+            <h3>Полные каталоги и образцы</h3>
+            <p>По запросу покажем все фактуры и согласуем встречу или передачу образцов.</p>
           </article>
         </div>
       </section>
@@ -159,10 +196,10 @@ export default function Home() {
       <section className="lead-section" id="lead">
         <div className="lead-copy">
           <p className="eyebrow light"><span /> Только для гостей Open Village</p>
-          <h2>Получите каталог<br />и расчёт <em>под ваш объект.</em></h2>
+          <h2>Получите прайс<br />и расчёт <em>под ваш объект.</em></h2>
           <p>
-            Ответьте на несколько коротких вопросов. Мы сохраним контекст
-            разговора и вернёмся уже с предметным предложением.
+            Ответьте на несколько коротких вопросов. Сразу после отправки
+            откроется прайс, а мы сохраним контекст разговора и вернёмся с предметным предложением.
           </p>
           <div className="lead-note">
             <strong>≈ 45 секунд</strong>
@@ -184,11 +221,19 @@ export default function Home() {
           </details>
           <details>
             <summary>Вы работаете с дизайнерами и комплектаторами?<span>+</span></summary>
-            <p>Да. Для профессионального сообщества предусмотрены проектное сопровождение и отдельные условия.</p>
+            <p>Да. В квизе можно указать роль, тип объекта и интересующую коллекцию — запрос сохранится с этим контекстом.</p>
           </details>
           <details>
             <summary>Как получить точную стоимость?<span>+</span></summary>
             <p>Нужны размеры, выбранный материал и объём. После этого подготовим спецификацию и предложение.</p>
+          </details>
+          <details>
+            <summary>Есть решения для общественных и влажных зон?<span>+</span></summary>
+            <p>Да, подбираем решение под условия объекта. Сертификаты и рабочие характеристики подтверждаем по конкретному артикулу до согласования.</p>
+          </details>
+          <details>
+            <summary>Можно заказать панели выше 2,8 метра?<span>+</span></summary>
+            <p>Проектные форматы 3–6 м рассматриваем индивидуально. Точную доступность декора, формат и логистику подтверждаем под заказ.</p>
           </details>
         </div>
       </section>
@@ -200,11 +245,10 @@ export default function Home() {
         </a>
         <p>Декоративные панели для современных интерьеров</p>
         <div className="footer-links">
-          <a href="#lead">Получить каталог</a>
-          <a href="#">Telegram</a>
-          <a href="#">WhatsApp</a>
+          <a href="#lead">Получить прайс</a>
+          <span>Контакты — следующим этапом</span>
         </div>
-        <small>Прототип выставочного продукта · контакты и цены будут обновлены</small>
+        <small>Выставочное предложение Open Village · условия по конкретной позиции подтверждаются при расчёте</small>
       </footer>
     </main>
   );
