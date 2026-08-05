@@ -20,13 +20,10 @@ const interests = [
   "Пока не знаю — нужна помощь",
 ];
 
-const GOOGLE_PRICE_LIST_URL = "https://docs.google.com/spreadsheets/d/1FAMPilvuxi6XvD74lxsOTF24qTfzd8llPvDt6TuxTnY/edit";
 const NETLIFY_FORM_ENDPOINT = "/forms.html";
-const TELEGRAM_URL = "https://t.me/AlexGX";
-const PRICE_LIST_CHUNKS = Array.from(
-  { length: 12 },
-  (_, index) => `/downloads/price-list-open-village-2026.xlsx.part-${String(index).padStart(2, "0")}`,
-);
+const TELEGRAM_URL = "https://t.me/IZI_PANEL";
+const EMAIL_URL = "mailto:Izipanelorder@gmail.com";
+const PRICE_LIST_URL = "/downloads/price-list-izi-panel.xlsx";
 
 type Tracking = {
   leadId: string;
@@ -54,7 +51,6 @@ export default function LeadForm() {
   const [interest, setInterest] = useState("");
   const [tracking, setTracking] = useState<Tracking>(emptyTracking);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-  const [downloadStatus, setDownloadStatus] = useState<"idle" | "loading" | "error">("idle");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -98,33 +94,6 @@ export default function LeadForm() {
     }
   }
 
-  async function downloadPriceList() {
-    setDownloadStatus("loading");
-    try {
-      const parts = await Promise.all(
-        PRICE_LIST_CHUNKS.map(async (url) => {
-          const response = await fetch(url);
-          if (!response.ok) throw new Error(`Price list part failed: ${response.status}`);
-          return response.arrayBuffer();
-        }),
-      );
-      const blob = new Blob(parts, {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "Прайс-лист-панели-Open-Village-2026.xlsx";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(url);
-      setDownloadStatus("idle");
-    } catch {
-      setDownloadStatus("error");
-    }
-  }
-
   if (status === "success") {
     return (
       <div className="lead-form success-card" aria-live="polite">
@@ -133,15 +102,14 @@ export default function LeadForm() {
         <h3>Контакт сохранён.</h3>
         <p>Прайс уже доступен. Полные каталоги фактур и показ образцов можно запросить у менеджера.</p>
         <div className="success-actions">
-          <button className="button button-dark" type="button" onClick={downloadPriceList} disabled={downloadStatus === "loading"}>
-            {downloadStatus === "loading" ? "Готовим файл…" : "Скачать прайс-лист"}
-          </button>
-          {downloadStatus === "error" && <p className="form-error">Не удалось скачать файл. Откройте прайс в Google Таблицах.</p>}
-          <a className="text-link" href={GOOGLE_PRICE_LIST_URL} target="_blank" rel="noreferrer">
-            Открыть в Google Таблицах ↗
+          <a className="button button-dark" href={PRICE_LIST_URL} download="Прайс-лист-IZI-PANEL.xlsx">
+            Скачать прайс-лист
           </a>
           <a className="text-link" href={TELEGRAM_URL} target="_blank" rel="noreferrer">
-            Написать в Telegram · @AlexGX ↗
+            Telegram · @IZI_PANEL ↗
+          </a>
+          <a className="text-link" href={EMAIL_URL}>
+            Izipanelorder@gmail.com ↗
           </a>
         </div>
       </div>

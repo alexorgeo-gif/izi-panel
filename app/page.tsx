@@ -243,9 +243,10 @@ export default function Home() {
         <p>Декоративные панели для современных интерьеров</p>
         <div className="footer-links">
           <a href="#lead">Получить прайс</a>
-          <a href="https://t.me/AlexGX" target="_blank" rel="noreferrer">
-            Telegram · @AlexGX ↗
+          <a href="https://t.me/IZI_PANEL" target="_blank" rel="noreferrer">
+            Telegram · @IZI_PANEL ↗
           </a>
+          <a href="mailto:Izipanelorder@gmail.com">Izipanelorder@gmail.com ↗</a>
         </div>
         <small>Выставочное предложение Open Village · условия по конкретной позиции подтверждаются при расчёте</small>
       </footer>
