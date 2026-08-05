@@ -5,7 +5,9 @@ import syncGoogleSheet, { isOpenVillageLead } from "../netlify/functions/sync-go
 
 test("recognizes only the Open Village form", () => {
   assert.equal(isOpenVillageLead({ "form-name": "open-village-lead" }), true);
+  assert.equal(isOpenVillageLead({ source: "open-village-2026" }), true);
   assert.equal(isOpenVillageLead({ "form-name": "another-form" }), false);
+  assert.equal(isOpenVillageLead({ source: "another-campaign" }), false);
 });
 
 test("forwards a verified lead without exposing configuration in the client", async () => {
@@ -27,7 +29,7 @@ test("forwards a verified lead without exposing configuration in the client", as
   try {
     await syncGoogleSheet.formSubmitted({
       data: {
-        "form-name": "open-village-lead",
+        source: "open-village-2026",
         lead_id: "lead-test-1",
         name: "Тест",
         contact: "@test",
