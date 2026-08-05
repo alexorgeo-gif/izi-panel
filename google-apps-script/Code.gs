@@ -22,8 +22,14 @@ function consentValue(value) {
   return value === true || value === "true" || value === "on" || value === "Да";
 }
 
-function segmentFormula(rowNumber) {
-  return `=IF(E${rowNumber}="Частный заказчик","Частные клиенты",IF(E${rowNumber}="Дизайнер / архитектор","Дизайнеры",IF(E${rowNumber}="Строитель / комплектатор","Строители и комплектаторы",IF(E${rowNumber}="Дилер / магазин","Дилеры","Не определён"))))`;
+function segmentValue(role) {
+  const segments = {
+    "Частный заказчик": "Частные клиенты",
+    "Дизайнер / архитектор": "Дизайнеры",
+    "Строитель / комплектатор": "Строители и комплектаторы",
+    "Дилер / магазин": "Дилеры",
+  };
+  return segments[String(role || "").trim()] || "Не определён";
 }
 
 function doPost(event) {
@@ -61,7 +67,7 @@ function doPost(event) {
       String(data.name || "").trim(),
       String(data.contact || "").trim(),
       String(data.role || "").trim(),
-      "",
+      segmentValue(data.role),
       String(data.object || "").trim(),
       String(data.area || "").trim(),
       String(data.interest || "").trim(),
@@ -80,7 +86,6 @@ function doPost(event) {
     ];
 
     sheet.getRange(rowNumber, 1, 1, row.length).setValues([row]);
-    sheet.getRange(rowNumber, 6).setFormula(segmentFormula(rowNumber));
     sheet.getRange(rowNumber, 2).setNumberFormat("yyyy-mm-dd hh:mm");
     sheet.getRange(rowNumber, 19).setNumberFormat("yyyy-mm-dd");
     SpreadsheetApp.flush();
