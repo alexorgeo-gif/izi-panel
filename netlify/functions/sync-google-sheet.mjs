@@ -1,4 +1,5 @@
 const FORM_NAME = "open-village-lead";
+const FORM_SOURCE = "open-village-2026";
 
 function requireEnvironment(name) {
   const value = process.env[name]?.trim();
@@ -7,7 +8,7 @@ function requireEnvironment(name) {
 }
 
 export function isOpenVillageLead(data) {
-  return data?.["form-name"] === FORM_NAME;
+  return data?.source === FORM_SOURCE || data?.["form-name"] === FORM_NAME;
 }
 
 export async function postLeadToGoogleSheet(data) {
@@ -33,9 +34,14 @@ export async function postLeadToGoogleSheet(data) {
 
 export default {
   async formSubmitted(event) {
-    if (!isOpenVillageLead(event.data)) return;
+    const data = event?.data ?? {};
+    console.info(`Netlify form event received: source=${data.source ?? "missing"}; fields=${Object.keys(data).sort().join(",")}`);
+    if (!isOpenVillageLead(data)) {
+      console.warn("Skipped form event without the Open Village source");
+      return;
+    }
 
-    await postLeadToGoogleSheet(event.data);
-    console.info(`Google Sheets lead synced: ${event.data.lead_id ?? "without-id"}`);
+    await postLeadToGoogleSheet(data);
+    console.info(`Google Sheets lead synced: ${data.lead_id ?? "without-id"}`);
   },
 };
