@@ -22,6 +22,7 @@ const interests = [
 
 const GOOGLE_PRICE_LIST_URL = "https://docs.google.com/spreadsheets/d/1FAMPilvuxi6XvD74lxsOTF24qTfzd8llPvDt6TuxTnY/edit";
 const NETLIFY_FORM_ENDPOINT = "/forms.html";
+const TELEGRAM_URL = "https://t.me/AlexGX";
 const PRICE_LIST_CHUNKS = Array.from(
   { length: 12 },
   (_, index) => `/downloads/price-list-open-village-2026.xlsx.part-${String(index).padStart(2, "0")}`,
@@ -138,6 +139,9 @@ export default function LeadForm() {
           {downloadStatus === "error" && <p className="form-error">Не удалось скачать файл. Откройте прайс в Google Таблицах.</p>}
           <a className="text-link" href={GOOGLE_PRICE_LIST_URL} target="_blank" rel="noreferrer">
             Открыть в Google Таблицах ↗
+          </a>
+          <a className="text-link" href={TELEGRAM_URL} target="_blank" rel="noreferrer">
+            Написать в Telegram · @AlexGX ↗
           </a>
         </div>
       </div>
