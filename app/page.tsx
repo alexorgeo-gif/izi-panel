@@ -243,7 +243,9 @@ export default function Home() {
         <p>Декоративные панели для современных интерьеров</p>
         <div className="footer-links">
           <a href="#lead">Получить прайс</a>
-          <span>Контакты — следующим этапом</span>
+          <a href="https://t.me/AlexGX" target="_blank" rel="noreferrer">
+            Telegram · @AlexGX ↗
+          </a>
         </div>
         <small>Выставочное предложение Open Village · условия по конкретной позиции подтверждаются при расчёте</small>
       </footer>
