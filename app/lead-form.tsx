@@ -21,6 +21,7 @@ const interests = [
 ];
 
 const GOOGLE_PRICE_LIST_URL = "https://docs.google.com/spreadsheets/d/1FAMPilvuxi6XvD74lxsOTF24qTfzd8llPvDt6TuxTnY/edit";
+const NETLIFY_FORM_ENDPOINT = "/forms.html";
 const PRICE_LIST_CHUNKS = Array.from(
   { length: 12 },
   (_, index) => `/downloads/price-list-open-village-2026.xlsx.part-${String(index).padStart(2, "0")}`,
@@ -82,7 +83,9 @@ export default function LeadForm() {
     data.submitted_at = new Date().toISOString();
     try {
       const formPayload = new URLSearchParams(data);
-      const formResponse = await fetch("/", {
+      // Submit to the static form page Netlify scanned at deploy time. Posting to
+      // the Next.js root can return the application HTML with a misleading 200.
+      const formResponse = await fetch(NETLIFY_FORM_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: formPayload.toString(),
@@ -146,10 +149,15 @@ export default function LeadForm() {
       className="lead-form"
       name="open-village-lead"
       method="POST"
+      action={NETLIFY_FORM_ENDPOINT}
       data-netlify="true"
+      data-netlify-honeypot="bot-field"
       onSubmit={submit}
     >
       <input type="hidden" name="form-name" value="open-village-lead" />
+      <p hidden>
+        <label>Не заполняйте это поле: <input name="bot-field" /></label>
+      </p>
       <input type="hidden" name="source" value="open-village-2026" />
       <input type="hidden" name="role" value={role} />
       <input type="hidden" name="object" value={objectType} />
