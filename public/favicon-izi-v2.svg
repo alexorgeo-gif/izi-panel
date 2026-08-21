@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Иконка IZI PANEL</title>
+  <desc id="desc">Фирменный знак IZI PANEL на тёмном фоне.</desc>
+  <rect width="160" height="160" rx="24" fill="#4A4038"/>
+  <path fill="#F7F1E9" d="M34 48c0-5 3-8 8-10l28-10c5-2 9 1 9 7v90c0 5-4 8-9 6l-28-11c-5-2-8-6-8-11V48Z"/>
+  <path fill="#C7A98A" d="M88 42c0-5 4-8 9-5l22 14c4 2 6 6 6 10v38c0 4-2 8-6 10l-22 14c-5 3-9 0-9-5V42Z"/>
+</svg>

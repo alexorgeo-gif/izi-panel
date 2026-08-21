@@ -138,7 +138,7 @@ components:
 
 - Основной логотип: `/brand/izi-panel-logo-primary.svg`; обратный для фото/тёмного фона: `/brand/izi-panel-logo-reversed.svg`.
 - Монохромный логотип: `/brand/izi-panel-logo-monochrome.svg`; отдельный знак: `/brand/izi-panel-mark-primary.svg`.
-- App/favicon-набор: `/brand/izi-panel-app-icon.svg`, `izi-panel-app-icon-512.png`, `apple-touch-icon.png`, `favicon-16.png`, `favicon-32.png`.
+- App/favicon-набор: `/brand/izi-panel-app-icon.svg`, `izi-panel-app-icon-512.png`; browser cache-busting набор — `/favicon-izi-v2.svg`, `/brand/favicon-izi-v2-16.png`, `/brand/favicon-izi-v2-32.png`, `/brand/izi-panel-touch-v2.png`.
 - Логотип всегда берётся из мастер-ассета; не набирать его заново шрифтом и не перекрашивать SVG мимо палитры.
 
 ### Buttons and links

@@ -19,10 +19,11 @@ export const metadata: Metadata = {
   applicationName: "IZI PANEL",
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-izi-v2.svg", type: "image/svg+xml" },
+      { url: "/brand/favicon-izi-v2-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/brand/favicon-izi-v2-16.png", sizes: "16x16", type: "image/png" },
     ],
-    apple: [{ url: "/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [{ url: "/brand/izi-panel-touch-v2.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     title,

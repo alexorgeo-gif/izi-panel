@@ -10,8 +10,10 @@ test("exports the IZI PANEL landing with the approved brand assets", async () =>
   assert.match(html, /<title>IZI PANEL — декоративные панели в интерьере<\/title>/i);
   assert.match(html, /IZI PANEL/);
   assert.doesNotMatch(html, /FORM \/ PANEL|>F\/P</i);
+  assert.match(html, /href="\/favicon-izi-v2\.svg"/);
   await access(new URL("out/brand/izi-panel-logo-primary.svg", root));
-  await access(new URL("out/brand/apple-touch-icon.png", root));
+  await access(new URL("out/brand/favicon-izi-v2-32.png", root));
+  await access(new URL("out/brand/izi-panel-touch-v2.png", root));
   await access(new URL("out/fonts/Commissioner-Variable.ttf", root));
 });
 
