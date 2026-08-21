@@ -1,9 +1,9 @@
-node_modules/
+.DS_Store
 .next/
-dist/
-.wrangler/
+node_modules
+out/
+.impeccable/review/
 .env*
 !.env.example
 *.log
 *.tsbuildinfo
-.DS_Store

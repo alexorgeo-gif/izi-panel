@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
+import { ArrowIcon, CheckIcon } from "./brand-icons";
 
 const roles = ["Частный заказчик", "Дизайнер / архитектор", "Строитель / комплектатор", "Дилер / магазин"];
 const objects = [
@@ -25,44 +26,13 @@ const TELEGRAM_URL = "https://t.me/IZI_PANEL";
 const EMAIL_URL = "mailto:Izipanelorder@gmail.com";
 const PRICE_LIST_URL = "/downloads/price-list-izi-panel.xlsx";
 
-type Tracking = {
-  leadId: string;
-  pageUrl: string;
-  utmSource: string;
-  utmMedium: string;
-  utmCampaign: string;
-  utmContent: string;
-};
-
-const emptyTracking: Tracking = {
-  leadId: "",
-  pageUrl: "",
-  utmSource: "",
-  utmMedium: "",
-  utmCampaign: "",
-  utmContent: "",
-};
-
 export default function LeadForm() {
   const [step, setStep] = useState(1);
   const [role, setRole] = useState("");
   const [objectType, setObjectType] = useState("");
   const [area, setArea] = useState("");
   const [interest, setInterest] = useState("");
-  const [tracking, setTracking] = useState<Tracking>(emptyTracking);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setTracking({
-      leadId: window.crypto?.randomUUID?.() ?? `lead-${Date.now()}`,
-      pageUrl: window.location.href,
-      utmSource: params.get("utm_source") ?? "",
-      utmMedium: params.get("utm_medium") ?? "",
-      utmCampaign: params.get("utm_campaign") ?? "",
-      utmContent: params.get("utm_content") ?? "",
-    });
-  }, []);
 
   const nextFromRole = (value: string) => {
     setRole(value);
@@ -77,6 +47,13 @@ export default function LeadForm() {
     for (const [key, value] of new FormData(form).entries()) {
       data[key] = String(value);
     }
+    const params = new URLSearchParams(window.location.search);
+    data.lead_id = window.crypto?.randomUUID?.() ?? `lead-${Date.now()}`;
+    data.page_url = window.location.href;
+    data.utm_source = params.get("utm_source") ?? "";
+    data.utm_medium = params.get("utm_medium") ?? "";
+    data.utm_campaign = params.get("utm_campaign") ?? "";
+    data.utm_content = params.get("utm_content") ?? "";
     data.submitted_at = new Date().toISOString();
     try {
       const formPayload = new URLSearchParams(data);
@@ -97,8 +74,7 @@ export default function LeadForm() {
   if (status === "success") {
     return (
       <div className="lead-form success-card" aria-live="polite">
-        <span className="success-icon">✓</span>
-        <p className="form-kicker">Готово</p>
+        <span className="success-icon"><CheckIcon /></span>
         <h3>Контакт сохранён.</h3>
         <p>Прайс уже доступен. Полные каталоги фактур и показ образцов можно запросить у менеджера.</p>
         <div className="success-actions">
@@ -106,10 +82,10 @@ export default function LeadForm() {
             Скачать прайс-лист
           </a>
           <a className="text-link" href={TELEGRAM_URL} target="_blank" rel="noreferrer">
-            Telegram · @IZI_PANEL ↗
+            Telegram · @IZI_PANEL <ArrowIcon direction="up-right" />
           </a>
           <a className="text-link" href={EMAIL_URL}>
-            Izipanelorder@gmail.com ↗
+            Izipanelorder@gmail.com <ArrowIcon direction="up-right" />
           </a>
         </div>
       </div>
@@ -135,26 +111,24 @@ export default function LeadForm() {
       <input type="hidden" name="object" value={objectType} />
       <input type="hidden" name="area" value={area} />
       <input type="hidden" name="interest" value={interest} />
-      <input type="hidden" name="lead_id" value={tracking.leadId} />
-      <input type="hidden" name="page_url" value={tracking.pageUrl} />
-      <input type="hidden" name="utm_source" value={tracking.utmSource} />
-      <input type="hidden" name="utm_medium" value={tracking.utmMedium} />
-      <input type="hidden" name="utm_campaign" value={tracking.utmCampaign} />
-      <input type="hidden" name="utm_content" value={tracking.utmContent} />
+      <input type="hidden" name="lead_id" value="" />
+      <input type="hidden" name="page_url" value="" />
+      <input type="hidden" name="utm_source" value="" />
+      <input type="hidden" name="utm_medium" value="" />
+      <input type="hidden" name="utm_campaign" value="" />
+      <input type="hidden" name="utm_content" value="" />
       <input type="hidden" name="submitted_at" value="" />
 
       <div className="form-progress" aria-label={`Шаг ${step} из 3`}>
         {[1, 2, 3].map((item) => <span className={item <= step ? "active" : ""} key={item} />)}
       </div>
-      <p className="form-kicker">Шаг {step} из 3</p>
-
       {step === 1 && (
         <fieldset>
           <legend>В каком качестве вы рассматриваете панели?</legend>
           <div className="option-list">
             {roles.map((item) => (
               <button type="button" onClick={() => nextFromRole(item)} key={item}>
-                {item}<span>→</span>
+                {item}<ArrowIcon />
               </button>
             ))}
           </div>
@@ -186,8 +160,8 @@ export default function LeadForm() {
             </select>
           </label>
           <div className="form-nav">
-            <button type="button" className="back-button" onClick={() => setStep(1)}>← Назад</button>
-            <button type="button" className="button button-dark" disabled={!objectType || !area || !interest} onClick={() => setStep(3)}>Продолжить →</button>
+            <button type="button" className="back-button" onClick={() => setStep(1)}><ArrowIcon direction="left" /> Назад</button>
+            <button type="button" className="button button-dark" disabled={!objectType || !area || !interest} onClick={() => setStep(3)}>Продолжить <ArrowIcon /></button>
           </div>
         </fieldset>
       )}
@@ -213,9 +187,9 @@ export default function LeadForm() {
           </label>
           {status === "error" && <p className="form-error">Не удалось отправить. Проверьте связь и попробуйте ещё раз.</p>}
           <div className="form-nav">
-            <button type="button" className="back-button" onClick={() => setStep(2)}>← Назад</button>
+            <button type="button" className="back-button" onClick={() => setStep(2)}><ArrowIcon direction="left" /> Назад</button>
             <button type="submit" className="button button-dark" disabled={status === "sending"}>
-              {status === "sending" ? "Сохраняем…" : "Получить прайс →"}
+              {status === "sending" ? "Сохраняем…" : <>Получить прайс <ArrowIcon /></>}
             </button>
           </div>
         </fieldset>

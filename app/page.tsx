@@ -1,254 +1,320 @@
-import LeadForm from "./lead-form";
+"use client";
 
-const solutions = [
+import { useEffect, useState, type CSSProperties } from "react";
+import Image from "next/image";
+import LeadForm from "./lead-form";
+import { ArrowIcon } from "./brand-icons";
+
+const spaces = [
+  {
+    id: "living",
+    number: "01",
+    label: "Гостиная",
+    title: "Тёплое дерево. Холодный камень. Один спокойный объём.",
+    description:
+      "Панель задаёт ритм стены, скрывает дверь и связывает мебель с архитектурой. Камень остаётся акцентом, а не спорит с рисунком дерева.",
+    image: "/images/hero-living.jpg",
+    alt: "Гостиная с крупноформатными панелями под дерево и светлым камнем",
+    recipe: ["тёплое дерево", "светлый травертин", "тёмная бронза"],
+    focus: "ТВ-зона · камин · скрытая дверь",
+  },
+  {
+    id: "bedroom",
+    number: "02",
+    label: "Спальня",
+    title: "Мягкая фактура вместо декоративного шума.",
+    description:
+      "Спокойная поверхность работает как фон для сна: крупный модуль, тёплая подсветка и одна узкая плоскость дерева собирают стену за изголовьем.",
+    image: "/images/bedroom.jpg",
+    alt: "Спальня с панелями под текстиль, орехом и встроенным шкафом",
+    recipe: ["текстильный эффект", "орех", "светлый камень"],
+    focus: "Изголовье · гардероб · боковой свет",
+  },
+  {
+    id: "kitchen",
+    number: "03",
+    label: "Кухня и столовая",
+    title: "Панели продолжают мебель и скрывают функциональные зоны.",
+    description:
+      "Вертикальная плоскость объединяет высокие шкафы, проход и скрытую кладовую. Керамогранит остаётся практичным спокойным основанием композиции.",
+    image: "/images/kitchen.jpg",
+    alt: "Кухня с тёмными панелями под дерево, скрытой дверью и светлым керамогранитом",
+    recipe: ["тёмный шпон", "керамогранит", "матовый металл"],
+    focus: "Фасады · кладовая · обеденная зона",
+  },
+  {
+    id: "wardrobe",
+    number: "04",
+    label: "Гардеробная и хранение",
+    title: "Хранение становится частью архитектуры.",
+    description:
+      "Один материал связывает шкафы, дверные полотна и проход в хозяйственную зону. Функция остаётся внутри, снаружи читается цельный объём.",
+    image: "/images/wardrobe.jpg",
+    alt: "Гардеробная с тёмными стеновыми панелями и проходом в систему хранения",
+    recipe: ["глубокое дерево", "матовый taupe", "травертин"],
+    focus: "Шкафы · проход · хозяйственная зона",
+  },
+];
+
+const collections = [
   {
     number: "01",
     title: "Дерево и шпон",
-    text: "Тёплая фактура для жилых интерьеров, гостиничных номеров и лаунж-зон.",
-    image: "/catalog-interiors/solution-wood.webp",
-    catalog: "Коллекция дерева",
+    text: "Для цельных стен, скрытых дверей, ТВ-зон и встроенной мебели.",
+    image: "/images/legacy/solution-wood.webp",
   },
   {
     number: "02",
     title: "Травертин и мрамор",
-    text: "Крупный природный рисунок для акцентных стен, лобби и гостиных.",
-    image: "/catalog-interiors/solution-stone.webp",
-    catalog: "Коллекция камня",
+    text: "Для крупного рисунка, каминных объёмов, ниш и спокойных акцентов.",
+    image: "/images/legacy/solution-stone.webp",
   },
   {
     number: "03",
     title: "Тканевые поверхности",
-    text: "Мягкий визуальный фон для спален, кабинетов и зон ожидания.",
-    image: "/catalog-interiors/solution-fabric.webp",
-    catalog: "Коллекция текстиля",
+    text: "Для спален, кабинетов и пространств, где важен мягкий визуальный фон.",
+    image: "/images/legacy/solution-fabric.webp",
   },
   {
     number: "04",
     title: "Металл и патина",
-    text: "Выразительный акцент для ресторанов, баров и коммерческих интерьеров.",
-    image: "/catalog-interiors/solution-metal.webp",
-    catalog: "Коллекция металла",
+    text: "Для ниш, барных зон и точных акцентов рядом с деревом и камнем.",
+    image: "/images/legacy/solution-metal.webp",
   },
 ];
 
-const audiences = [
-  ["Частному заказчику", "Поможем понять объём, подобрать декор и собрать решение под интерьер."],
-  ["Дизайнеру", "Подбор образцов, понятная спецификация и сопровождение проекта."],
-  ["Строителю", "Зафиксируем тип объекта, площадь и данные для будущей комплектации."],
-  ["Дилеру", "Покажем основные коллекции и соберём запрос по формату сотрудничества."],
-];
-
-const projectOptions = [
-  {
-    number: "01",
-    title: "Общественные зоны",
-    text: "Подберём решение под требования объекта, включая помещения с требованиями по пожарной безопасности.",
-  },
-  {
-    number: "02",
-    title: "Влагостойкость и ударопрочность",
-    text: "Предложим SPC, кварц-винил и WPC с бамбуковым наполнением — под условия конкретного помещения.",
-  },
-  {
-    number: "03",
-    title: "Высота до 6 метров",
-    text: "Нестандартные панели высотой 3–6 м рассчитываем индивидуально под проект.",
-  },
-];
+function WordTitle({ children }: { children: string }) {
+  return (
+    <span className="word-title" aria-label={children}>
+      {children.split(" ").map((word, index) => (
+        <span className="word" aria-hidden="true" style={{ "--word-index": index } as CSSProperties} key={`${word}-${index}`}>
+          {word}&nbsp;
+        </span>
+      ))}
+    </span>
+  );
+}
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScrolled(window.scrollY > 40);
+      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("is-visible");
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8%" },
+    );
+
+    document.querySelectorAll("[data-reveal]").forEach((element) => observer.observe(element));
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <main>
-      <header className="topbar">
-        <a className="brand" href="#top" aria-label="На главную">
-          <span className="brand-mark">F/P</span>
-          <span>FORM / PANEL</span>
+    <main id="top">
+      <a className="skip-link" href="#content">Перейти к содержанию</a>
+
+      <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
+        <a className="brand" href="#top" aria-label="IZI PANEL — наверх">
+          <Image
+            className="brand-logo"
+            src={scrolled || menuOpen ? "/brand/izi-panel-logo-primary.svg" : "/brand/izi-panel-logo-reversed.svg"}
+            alt="IZI PANEL"
+            width={600}
+            height={160}
+            priority
+          />
         </a>
-        <a className="topbar-cta" href="#lead">
-          Получить прайс
-        </a>
+
+        <nav id="mobile-menu" className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Основная навигация">
+          <a href="#spaces" onClick={() => setMenuOpen(false)}>Интерьеры</a>
+          <a href="#collections" onClick={() => setMenuOpen(false)}>Направления</a>
+          <a href="#combinations" onClick={() => setMenuOpen(false)}>Сочетания</a>
+          <a className="nav-cta" href="#lead" onClick={() => setMenuOpen(false)}>Получить прайс</a>
+        </nav>
+
+        <button
+          className="menu-button"
+          type="button"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+          onClick={() => setMenuOpen((value) => !value)}
+        >
+          {menuOpen ? "Закрыть" : "Меню"}
+        </button>
+        <div className="scroll-progress" aria-hidden="true" style={{ transform: `scaleX(${progress})` }} />
       </header>
 
-      <section className="hero" id="top">
-        <div className="hero-copy">
-          <p className="eyebrow"><span /> Open Village · скидка до 50%</p>
-          <h1>
-            Стены, которые
-            <br />
-            <em>задают характер.</em>
+      <section className="hero" aria-labelledby="hero-title">
+        <Image className="hero-image" src="/images/hero-living.jpg" alt="Современная гостиная с декоративными панелями под дерево и светлым камнем" fill priority sizes="100vw" />
+        <div className="hero-shade" />
+        <div className="hero-copy" data-reveal>
+          <h1 id="hero-title">
+            <WordTitle>Поверхности, которые собирают интерьер.</WordTitle>
           </h1>
-          <p className="hero-text">
-            Декоративные панели для квартир, загородных домов и коммерческих
-            интерьеров. Подберём решение и предварительно рассчитаем объём под
-            ваш объект. На отдельные позиции выставочная цена — от 1 900 ₽/м².
+          <p className="hero-lead">
+            Дерево, камень, ткань и металл — не отдельными образцами,
+            а в законченных пространствах.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#lead">
-              Получить прайс и расчёт <span>↗</span>
-            </a>
-            <a className="text-link" href="#solutions">
-              Смотреть решения <span>↓</span>
-            </a>
-          </div>
-          <div className="hero-trust">
-            <span>Прайс после квиза</span>
-            <span>Проектный расчёт</span>
-            <span>Для дома и HoReCa</span>
+            <a className="button button-light" href="#spaces">Смотреть в интерьере <ArrowIcon direction="down" /></a>
+            <a className="line-link line-link-light" href="#lead">Получить прайс и расчёт <ArrowIcon direction="up-right" /></a>
           </div>
         </div>
+        <div className="hero-meta" aria-label="Визуальные направления">
+          <span>IZI PANEL · 01 / 04</span>
+          <span>Дерево · камень · ткань · металл</span>
+        </div>
+        <p className="hero-note">Концептуальная интерьерная визуализация</p>
+      </section>
 
-        <div className="hero-visual" role="img" aria-label="Современный интерьер с декоративными панелями">
-          <div className="hero-badge">
-            <strong>01</strong>
-            <span>Дерево · камень<br />ткань · металл</span>
+      <div id="content">
+        <section className="manifesto section-shell" aria-labelledby="manifesto-title">
+          <div className="manifesto-copy" data-reveal>
+            <h2 id="manifesto-title">Материал становится архитектурой.</h2>
+            <p>
+              Когда работает не сам по себе, а вместе с объёмом, светом,
+              мебелью и соседними поверхностями.
+            </p>
           </div>
-          <div className="scroll-note">Листайте, чтобы увидеть больше</div>
-        </div>
-      </section>
+          <figure className="material-figure" data-reveal>
+            <Image src="/images/material-detail.jpg" alt="Стык панели под дерево и светлой поверхности под травертин" width={1536} height={1024} />
+            <figcaption>
+              <span>Деталь 01</span>
+              <span>Дерево / профиль / травертин</span>
+            </figcaption>
+          </figure>
+        </section>
 
-      <section className="signal-strip" aria-label="Применение панелей">
-        <p>От 1 900 ₽/м².</p>
-        <p>Скидка до 50%.</p>
-        <span>На отдельные позиции при максимальной скидке · условия уточняются</span>
-      </section>
-
-      <section className="section project-options">
-        <div className="section-heading compact">
-          <p className="eyebrow"><span /> Под задачу проекта</p>
-          <h2>Для дома.<br /><em>Для общественных зон.</em></h2>
-        </div>
-        <div className="project-options-grid">
-          {projectOptions.map((item) => (
-            <article key={item.title}>
-              <span>{item.number}</span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section solutions" id="solutions">
-        <div className="section-heading">
-          <p className="eyebrow"><span /> Решения</p>
-          <h2>Одна система.<br /><em>Разный характер.</em></h2>
-          <p>
-            Четыре направления.
+        <section className="spaces-intro section-shell" id="spaces" aria-labelledby="spaces-title">
+          <h2 id="spaces-title" data-reveal>Не каталог комнат.<br />Четыре способа собрать пространство.</h2>
+          <p className="spaces-deck" data-reveal>
+            В каждой главе — общий объём, материальный рецепт и зона,
+            где поверхность решает архитектурную задачу.
           </p>
-        </div>
-        <div className="solution-grid">
-          {solutions.map((item) => (
-            <article className="solution-card" key={item.title}>
-              <div className="solution-image" style={{ backgroundImage: `url(${item.image})` }}>
-                <span>{item.number}</span>
+        </section>
+
+        <div className="space-stories">
+          {spaces.map((space) => (
+            <section className="space-story" id={space.id} key={space.id} aria-labelledby={`${space.id}-title`}>
+              <div className="space-sticky">
+                <Image src={space.image} alt={space.alt} fill priority={space.id === "living"} sizes="100vw" />
+                <div className="space-overlay" />
+                <div className="space-index"><span>{space.number}</span><span>{space.label}</span></div>
+                <div className="space-copy" data-reveal>
+                  <h2 id={`${space.id}-title`}>{space.title}</h2>
+                  <p>{space.description}</p>
+                </div>
+                <div className="recipe-panel" data-reveal>
+                  <div>
+                    <span className="recipe-label">Материальный рецепт</span>
+                    <ul>
+                      {space.recipe.map((item) => <li key={item}>{item}</li>)}
+                    </ul>
+                  </div>
+                  <p>{space.focus}</p>
+                </div>
               </div>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-              <small className="solution-meta">{item.catalog}</small>
-            </article>
+            </section>
           ))}
         </div>
-      </section>
 
-      <section className="section fit-section">
-        <div className="fit-intro">
-          <p className="eyebrow light"><span /> Для вашего формата работы</p>
-          <h2>Говорим с вами<br /><em>на одном языке.</em></h2>
-        </div>
-        <div className="audience-list">
-          {audiences.map(([title, text], index) => (
-            <article key={title}>
-              <span>0{index + 1}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+        <section className="collections section-shell" id="collections" aria-labelledby="collections-title">
+          <header className="collections-heading" data-reveal>
+            <div>
+              <h2 id="collections-title">Четыре характера поверхности.</h2>
+            </div>
+            <p>
+              Это пока архитектура ассортимента, а не список подтверждённых артикулов.
+              Конкретные декоры подключаются из актуального каталога.
+            </p>
+          </header>
 
-      <section className="section process">
-        <div className="section-heading compact">
-          <p className="eyebrow"><span /> Что получите</p>
-          <h2>Следующий шаг —<br /><em>уже конкретный.</em></h2>
-        </div>
-        <div className="process-grid">
-          <article>
-            <span>01</span>
-            <h3>Прайс сразу после квиза</h3>
-            <p>Откроем выставочный прайс после сохранения контакта и параметров объекта.</p>
-          </article>
-          <article>
-            <span>02</span>
-            <h3>Предварительный расчёт</h3>
-            <p>Зафиксируем ориентировочную площадь и подготовим данные для расчёта.</p>
-          </article>
-          <article>
-            <span>03</span>
-            <h3>Полные каталоги и образцы</h3>
-            <p>По запросу покажем все фактуры и согласуем встречу или передачу образцов.</p>
-          </article>
-        </div>
-      </section>
-
-      <section className="lead-section" id="lead">
-        <div className="lead-copy">
-          <p className="eyebrow light"><span /> Только для гостей Open Village</p>
-          <h2>Получите прайс<br />и расчёт <em>под ваш объект.</em></h2>
-          <p>
-            Ответьте на несколько коротких вопросов. Сразу после отправки
-            откроется прайс, а мы сохраним контекст разговора и вернёмся с предметным предложением.
-          </p>
-          <div className="lead-note">
-            <strong>≈ 45 секунд</strong>
-            <span>Без длинной анкеты<br />и рекламных рассылок</span>
+          <div className="collection-grid">
+            {collections.map((collection) => (
+              <article className="collection-card" key={collection.title} data-reveal>
+                <div className="collection-media">
+                  <Image src={collection.image} alt="" width={1400} height={1682} />
+                  <span>{collection.number}</span>
+                </div>
+                <h3>{collection.title}</h3>
+                <p>{collection.text}</p>
+              </article>
+            ))}
           </div>
-        </div>
-        <LeadForm />
-      </section>
+        </section>
 
-      <section className="faq section">
-        <div className="section-heading compact">
-          <p className="eyebrow"><span /> Коротко о главном</p>
-          <h2>Перед тем,<br /><em>как продолжить.</em></h2>
-        </div>
-        <div className="faq-list">
-          <details>
-            <summary>Можно ли заказать только образцы?<span>+</span></summary>
-            <p>Да. Подберём релевантные вашему проекту декоры и согласуем удобный способ передачи.</p>
-          </details>
-          <details>
-            <summary>Вы работаете с дизайнерами и комплектаторами?<span>+</span></summary>
-            <p>Да. В квизе можно указать роль, тип объекта и интересующую коллекцию — запрос сохранится с этим контекстом.</p>
-          </details>
-          <details>
-            <summary>Как получить точную стоимость?<span>+</span></summary>
-            <p>Нужны размеры, выбранный материал и объём. После этого подготовим спецификацию и предложение.</p>
-          </details>
-          <details>
-            <summary>Есть решения для общественных и влажных зон?<span>+</span></summary>
-            <p>Да, подбираем решение под условия объекта. Сертификаты и рабочие характеристики подтверждаем по конкретному артикулу до согласования.</p>
-          </details>
-          <details>
-            <summary>Можно заказать панели выше 2,8 метра?<span>+</span></summary>
-            <p>Проектные форматы 3–6 м рассматриваем индивидуально. Точную доступность декора, формат и логистику подтверждаем под заказ.</p>
-          </details>
-        </div>
-      </section>
+        <section className="combinations" id="combinations" aria-labelledby="combinations-title">
+          <div className="combinations-media">
+            <Image src="/images/material-detail.jpg" alt="Точный стык тёмной древесной панели и светлой поверхности под камень" width={1536} height={1024} />
+          </div>
+          <div className="combinations-copy" data-reveal>
+            <h2 id="combinations-title">Один активный материал. Один поддерживающий.</h2>
+            <ol className="rules-list">
+              <li>
+                <span>01</span>
+                <div><h3>Сначала иерархия</h3><p>Выразительный камень требует спокойной древесной плоскости. Активное дерево — однотонного камня.</p></div>
+              </li>
+              <li>
+                <span>02</span>
+                <div><h3>Стык — это деталь</h3><p>Тонкий профиль, теневая щель или мебельный модуль должны объяснять переход между поверхностями.</p></div>
+              </li>
+              <li>
+                <span>03</span>
+                <div><h3>Свет раскрывает фактуру</h3><p>Боковой свет показывает направление рисунка и глубину поверхности лучше, чем яркая фронтальная подсветка.</p></div>
+              </li>
+            </ol>
+          </div>
+        </section>
 
-      <footer>
-        <a className="brand footer-brand" href="#top">
-          <span className="brand-mark">F/P</span>
-          <span>FORM / PANEL</span>
+        <section className="request-section" id="lead" aria-labelledby="request-title">
+          <div className="request-intro" data-reveal>
+            <h2 id="request-title">Получите прайс и расчёт под ваш объект.</h2>
+            <p>
+              Три коротких шага сохранят роль, параметры объекта и интересующее
+              направление — менеджер получит контекст для предметного ответа.
+            </p>
+            <div className="request-assurance">
+              <strong>≈ 45 секунд</strong>
+              <span>Без длинной анкеты и рекламных рассылок</span>
+            </div>
+          </div>
+          <div data-reveal>
+            <LeadForm />
+          </div>
+        </section>
+      </div>
+
+      <footer className="site-footer">
+        <a className="brand brand-footer" href="#top" aria-label="IZI PANEL — наверх">
+          <Image className="brand-logo" src="/brand/izi-panel-logo-primary.svg" alt="IZI PANEL" width={600} height={160} />
         </a>
-        <p>Декоративные панели для современных интерьеров</p>
-        <div className="footer-links">
+        <p>Декоративные панели как часть архитектуры интерьера.</p>
+        <div>
+          <a href="#spaces">Интерьеры</a>
+          <a href="#collections">Направления</a>
           <a href="#lead">Получить прайс</a>
-          <a href="https://t.me/IZI_PANEL" target="_blank" rel="noreferrer">
-            Telegram · @IZI_PANEL ↗
-          </a>
-          <a href="mailto:Izipanelorder@gmail.com">Izipanelorder@gmail.com ↗</a>
+          <a href="https://t.me/IZI_PANEL" target="_blank" rel="noreferrer">Telegram · @IZI_PANEL <ArrowIcon direction="up-right" /></a>
+          <a href="mailto:Izipanelorder@gmail.com">Izipanelorder@gmail.com <ArrowIcon direction="up-right" /></a>
         </div>
-        <small>Выставочное предложение Open Village · условия по конкретной позиции подтверждаются при расчёте</small>
+        <small>Конкретные позиции, цены и условия подтверждаются при расчёте.</small>
       </footer>
     </main>
   );
