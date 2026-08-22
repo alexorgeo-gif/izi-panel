@@ -33,7 +33,7 @@ Production не изменяется до явного разрешения вл
 - [x] Предыдущий/активный production остался `/var/www/izipanel.ru/releases/release-20260821T222244Z`.
 - [x] Candidate Nginx из `deploy/nginx-izipanel.ru.conf` сравнен с активным конфигом; `/forms.html` proxy сохранён.
 - [x] `nginx -t` прошёл на временной копии candidate-конфига; установка и reload не выполнялись.
-- [x] Изолированный staging smoke: robots → 200 `text/plain`; sitemap → 200 `text/xml`; неизвестный URL → 404 с текстом брендированной страницы. Временный localhost-only Nginx после проверки остановлен.
+- [x] Изолированный staging smoke: robots → 200 `text/plain`; sitemap → 200 `application/xml`; неизвестный URL → 404 с текстом брендированной страницы. Временный localhost-only Nginx после проверки остановлен.
 
 ## 4. Production — только после разрешения
 
