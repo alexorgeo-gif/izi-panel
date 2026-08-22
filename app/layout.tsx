@@ -1,8 +1,26 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const title = "IZI PANEL — декоративные панели в интерьере";
-const description = "Декоративные стеновые панели, прайс и предварительный расчёт под ваш объект.";
+const canonicalUrl = "https://izipanel.ru/";
+const title = "Декоративные стеновые панели IZI PANEL — каталог и расчёт";
+const description =
+  "Декоративные стеновые панели под дерево, камень, ткань и металл. Подбор решения для квартиры, дома и коммерческого интерьера. Получить прайс и расчёт.";
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "IZI PANEL",
+  alternateName: "Изи Панель",
+  url: canonicalUrl,
+};
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "IZI PANEL",
+  url: canonicalUrl,
+  logo: "https://izipanel.ru/brand/izi-panel-app-icon-512.png",
+  email: "Izipanelorder@gmail.com",
+  sameAs: ["https://t.me/IZI_PANEL"],
+};
 const designContract = `
 THESIS: material is shown as part of a resolved interior, not as an isolated sample.
 OWN-WORLD: warm beige architectural environment, Commissioner, full-bleed imagery, restrained rhythm.
@@ -17,6 +35,17 @@ export const metadata: Metadata = {
   title,
   description,
   applicationName: "IZI PANEL",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   icons: {
     icon: [
       { url: "/favicon-izi-v2.svg", type: "image/svg+xml" },
@@ -29,7 +58,8 @@ export const metadata: Metadata = {
     title,
     description,
     type: "website",
-    url: "https://izipanel.ru/",
+    url: canonicalUrl,
+    siteName: "IZI PANEL",
     images: [{ url: "/og.png", width: 1200, height: 630, alt: title }],
   },
   twitter: {
@@ -43,6 +73,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru">
+      <head>
+        <link rel="canonical" href={canonicalUrl} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+      </head>
       <body>
         <template
           data-design-contract="owner-approved-izi-panel-a-20260820"

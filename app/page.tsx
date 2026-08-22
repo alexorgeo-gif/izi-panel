@@ -167,7 +167,7 @@ export default function Home() {
         <div className="hero-shade" />
         <div className="hero-copy" data-reveal>
           <h1 id="hero-title">
-            <WordTitle>Поверхности, которые собирают интерьер.</WordTitle>
+            <WordTitle>Декоративные стеновые панели, которые собирают интерьер.</WordTitle>
           </h1>
           <p className="hero-lead">
             Дерево, камень, ткань и металл — не отдельными образцами,

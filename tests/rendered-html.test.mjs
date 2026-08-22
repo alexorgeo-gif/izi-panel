@@ -5,9 +5,12 @@ import test from "node:test";
 const root = new URL("../", import.meta.url);
 const html = await readFile(new URL("out/index.html", root), "utf8");
 const formDetector = await readFile(new URL("public/forms.html", root), "utf8");
+const robots = await readFile(new URL("out/robots.txt", root), "utf8");
+const sitemap = await readFile(new URL("out/sitemap.xml", root), "utf8");
+const notFound = await readFile(new URL("out/404.html", root), "utf8");
 
 test("exports the IZI PANEL landing with the approved brand assets", async () => {
-  assert.match(html, /<title>IZI PANEL — декоративные панели в интерьере<\/title>/i);
+  assert.match(html, /<title>Декоративные стеновые панели IZI PANEL — каталог и расчёт<\/title>/i);
   assert.match(html, /IZI PANEL/);
   assert.doesNotMatch(html, /FORM \/ PANEL|>F\/P</i);
   assert.match(html, /href="\/favicon-izi-v2\.svg"/);
@@ -15,6 +18,21 @@ test("exports the IZI PANEL landing with the approved brand assets", async () =>
   await access(new URL("out/brand/favicon-izi-v2-32.png", root));
   await access(new URL("out/brand/izi-panel-touch-v2.png", root));
   await access(new URL("out/fonts/Commissioner-Variable.ttf", root));
+});
+
+test("exports canonical SEO metadata, schema, robots, sitemap and branded 404", () => {
+  assert.match(html, /<link rel="canonical" href="https:\/\/izipanel\.ru\/"\s*\/?>/i);
+  assert.match(html, /Декоративные стеновые панели, которые собирают интерьер\./i);
+  assert.match(html, /"@type":"WebSite"/);
+  assert.match(html, /"@type":"Organization"/);
+  assert.match(html, /"name":"IZI PANEL"/);
+  assert.match(robots, /User-Agent: \*/i);
+  assert.match(robots, /Allow: \//i);
+  assert.match(robots, /Sitemap: https:\/\/izipanel\.ru\/sitemap\.xml/i);
+  assert.match(sitemap, /<loc>https:\/\/izipanel\.ru\/<\/loc>/i);
+  assert.doesNotMatch(sitemap, /\?(?:utm_|release|icon)/i);
+  assert.match(notFound, /Такой страницы нет\./i);
+  assert.match(notFound, /IZI PANEL/i);
 });
 
 test("keeps the live Open Village lead contract", async () => {
