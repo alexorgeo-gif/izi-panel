@@ -9,6 +9,6 @@ This folder contains the `izi-panel` website imported from GitHub.
 - Preserve the lead source value `open-village-2026` unless the campaign changes explicitly.
 - Keep `public/forms.html` aligned with the visible lead form so Netlify can detect it.
 - Do not publish unverified prices, delivery times, warranties, certificates, fire ratings, moisture resistance, or environmental claims.
-- Treat `FORM / PANEL`, `F/P`, stock photos, messenger links, and product descriptions as placeholders until verified materials are supplied.
+- Treat `IZI PANEL` and Brand System №1 as owner-approved. Product photos, commercial claims and unverified descriptions remain placeholders until verified materials are supplied.
 - Keep secrets and local credentials out of source files and chat.
 - After code changes, run the smallest relevant check and `npm run build:netlify` when dependencies are available.
