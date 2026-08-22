@@ -27,11 +27,12 @@ Production не изменяется до явного разрешения вл
 
 ## 3. Staging
 
-- [ ] Ветка запушена; зафиксированы commit SHA и build identity.
-- [ ] На CORE выполнен `deploy-to-beget.sh --stage`; production symlink не менялся.
-- [ ] Зафиксированы staging release path, manifest/checksum и предыдущий release.
-- [ ] Candidate Nginx из `deploy/nginx-izipanel.ru.conf` сравнен с активным конфигом.
-- [ ] `nginx -t` проходит на копии candidate-конфига.
+- [x] Ветка запушена: `feature/izi-panel-seo-foundation`; GitHub commit `fca12b7c6cf8e60abf706c83af431c1fad28bf77`.
+- [x] На CORE собран отдельный worktree через `next build --webpack`; production symlink не менялся.
+- [x] Staging: `/var/www/izipanel.ru/releases/release-20260822T062329Z`; `index.html` SHA-256 `0dfa8b0a5c25eb043708a00633d87faf431f58335f767cc7ca86f710773e57cd` совпал на CORE и Beget.
+- [x] Предыдущий/активный production остался `/var/www/izipanel.ru/releases/release-20260821T222244Z`.
+- [x] Candidate Nginx из `deploy/nginx-izipanel.ru.conf` сравнен с активным конфигом; `/forms.html` proxy сохранён.
+- [x] `nginx -t` прошёл на временной копии candidate-конфига; установка и reload не выполнялись.
 
 ## 4. Production — только после разрешения
 
