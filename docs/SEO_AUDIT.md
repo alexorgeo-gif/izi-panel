@@ -17,9 +17,9 @@
 | Объект | Текущее состояние и доказательство | Приоритет | Исправление | Статус после локальной проверки |
 |---|---|---:|---|---|
 | Главная | `[FACT]` `GET https://izipanel.ru/` → HTTP 200, `text/html` | — | Без изменения маршрута | Реализовано |
-| `robots.txt` | `[FACT]` production → HTTP 200, но `text/html` и тело 404 | P0 | Metadata route с `Allow: /` и ссылкой на sitemap | Реализовано локально; live ожидает активации |
-| `sitemap.xml` | `[FACT]` production → HTTP 200, но `text/html` и тело 404 | P0 | XML sitemap только с `https://izipanel.ru/` | Реализовано локально; live ожидает активации |
-| Несуществующий URL | `[FACT]` `/seo-audit-nonexistent-page` → HTTP 200, `text/html` | P0 | `try_files ... =404`, `error_page 404 /404.html` | Код и candidate Nginx готовы; live ожидает активации |
+| `robots.txt` | `[FACT]` production → HTTP 200, но `text/html` и тело 404 | P0 | Metadata route с `Allow: /` и ссылкой на sitemap | Staging → 200 `text/plain`; live ожидает активации |
+| `sitemap.xml` | `[FACT]` production → HTTP 200, но `text/html` и тело 404 | P0 | XML sitemap только с `https://izipanel.ru/` | Staging → 200 `text/xml`; live ожидает активации |
+| Несуществующий URL | `[FACT]` `/seo-audit-nonexistent-page` → HTTP 200, `text/html` | P0 | `try_files ... =404`, `error_page 404 /404.html` | Staging → HTTP 404 с брендированной страницей; live ожидает активации |
 | HTTPS www | `[FACT]` `https://www.izipanel.ru/` → HTTP 200 | P0 | Отдельный TLS server block с 301 на non-www | Candidate Nginx готов; live ожидает активации |
 | HTTP | `[FACT]` `http://www.izipanel.ru/` → один 301 на `https://izipanel.ru/` | — | Сохранить | Сохранено в candidate Nginx |
 | Canonical и query | `[FACT]` canonical отсутствует; `?release`, `?icon`, UTM отдают ту же страницу | P1 | Абсолютный self-canonical `https://izipanel.ru/` во всём HTML | Реализовано локально |
